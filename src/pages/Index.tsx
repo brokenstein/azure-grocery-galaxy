@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calculator, ShoppingCart, Sparkles } from 'lucide-react';
+import { Calculator, ShoppingCart, Zap } from 'lucide-react';
 import CalorieCalculator from '@/components/CalorieCalculator';
 import FoodListBuilder from '@/components/FoodListBuilder';
+import hypersonicLogo from '@/assets/hypersonic-logo.png';
 
 const Index = () => {
   return (
@@ -10,13 +11,15 @@ const Index = () => {
       {/* Header */}
       <header className="bg-card/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-stellar rounded-lg">
-              <Sparkles className="h-6 w-6 text-white" />
-            </div>
+          <div className="flex items-center space-x-4">
+            <img 
+              src={hypersonicLogo} 
+              alt="Hypersonic Logo" 
+              className="h-12 w-12 rounded-lg shadow-lg"
+            />
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Cosmic Health Tracker</h1>
-              <p className="text-sm text-muted-foreground">Track calories & build shopping lists</p>
+              <h1 className="text-2xl font-bold text-foreground">Hypersonic</h1>
+              <p className="text-sm text-muted-foreground">Lightning-fast health tracking</p>
             </div>
           </div>
         </div>
@@ -56,7 +59,7 @@ const Index = () => {
       <footer className="mt-16 py-8 border-t border-border/50">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
-            Built with cosmic energy ✨ Track your health journey among the stars
+            Powered by Hypersonic ⚡ Lightning-fast health tracking across the cosmos
           </p>
         </div>
       </footer>
