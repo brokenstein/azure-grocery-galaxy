@@ -52,6 +52,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Custom cosmic colors
+				'cosmic-blue': 'hsl(var(--cosmic-blue))',
+				'stellar-purple': 'hsl(var(--stellar-purple))',
+				'deep-space': 'hsl(var(--deep-space))',
+				'nebula': 'hsl(var(--nebula))',
+				'star-silver': 'hsl(var(--star-silver))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,6 +68,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			backgroundImage: {
+				'gradient-cosmic': 'var(--gradient-cosmic)',
+				'gradient-stellar': 'var(--gradient-stellar)',
+				'gradient-nebula': 'var(--gradient-nebula)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
