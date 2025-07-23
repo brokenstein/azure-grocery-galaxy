@@ -79,7 +79,7 @@ const WeightTracker = () => {
   return (
     <div className="space-y-6">
       {/* Current Weight Summary */}
-      <Card className="bg-gradient-silver border-moon-grey/30">
+      <Card className="bg-card/80 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-foreground">
             <Scale className="h-5 w-5" />
@@ -88,7 +88,7 @@ const WeightTracker = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-center p-4 bg-cosmic-white/5 rounded-lg border border-space-grey/20">
+            <div className="text-center p-4 bg-muted/20 rounded-lg border border-border/30">
               <p className="text-2xl font-bold text-cosmic-blue">
                 {currentWeight ? `${currentWeight.weight} ${currentWeight.unit}` : 'No entries yet'}
               </p>
@@ -96,7 +96,7 @@ const WeightTracker = () => {
             </div>
             
             {trend && (
-              <div className="text-center p-4 bg-cosmic-white/5 rounded-lg border border-space-grey/20">
+              <div className="text-center p-4 bg-muted/20 rounded-lg border border-border/30">
                 <div className="flex items-center justify-center gap-2">
                   {trend.direction === 'up' ? (
                     <TrendingUp className="h-5 w-5 text-red-500" />
@@ -115,7 +115,7 @@ const WeightTracker = () => {
       </Card>
 
       {/* Add Weight Entry */}
-      <Card className="bg-card/50 backdrop-blur-sm border-space-grey/30">
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle>Log Weight</CardTitle>
         </CardHeader>
@@ -130,7 +130,7 @@ const WeightTracker = () => {
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="bg-cosmic-white/10 border-moon-grey/30"
+                className="bg-background border-input"
               />
             </div>
             
@@ -140,7 +140,7 @@ const WeightTracker = () => {
                 id="unit"
                 value={unit}
                 onChange={(e) => setUnit(e.target.value as 'kg' | 'lbs')}
-                className="flex h-10 w-full rounded-md border border-moon-grey/30 bg-cosmic-white/10 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="kg">kg</option>
                 <option value="lbs">lbs</option>
@@ -161,7 +161,7 @@ const WeightTracker = () => {
       </Card>
 
       {/* Weight History */}
-      <Card className="bg-card/50 backdrop-blur-sm border-space-grey/30">
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle>Weight History</CardTitle>
         </CardHeader>
@@ -176,7 +176,7 @@ const WeightTracker = () => {
               {entries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex items-center justify-between p-3 bg-cosmic-white/5 rounded-lg border border-moon-grey/20"
+                  className="flex items-center justify-between p-3 bg-muted/10 rounded-lg border border-border/30"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="p-2 bg-cosmic-blue/20 rounded-full">
