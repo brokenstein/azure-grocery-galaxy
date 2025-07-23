@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calculator, ShoppingCart, Zap, Dumbbell } from 'lucide-react';
+import { Calculator, ShoppingCart, Zap, Dumbbell, Scale } from 'lucide-react';
 import CalorieCalculator from '@/components/CalorieCalculator';
 import FoodListBuilder from '@/components/FoodListBuilder';
 import ExerciseTracker from '@/components/ExerciseTracker';
+import WeightTracker from '@/components/WeightTracker';
 import hypersonicLogo from '@/assets/hypersonic-logo.png';
 
 const Index = () => {
@@ -29,7 +30,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="calories" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-cosmic-white/10 backdrop-blur-md border border-moon-grey/30">
+          <TabsList className="grid w-full grid-cols-4 bg-cosmic-white/10 backdrop-blur-md border border-moon-grey/30">
             <TabsTrigger 
               value="calories" 
               className="data-[state=active]:bg-gradient-stellar data-[state=active]:text-white"
@@ -51,6 +52,13 @@ const Index = () => {
               <Dumbbell className="h-4 w-4 mr-2" />
               Exercise Tracker
             </TabsTrigger>
+            <TabsTrigger 
+              value="weight" 
+              className="data-[state=active]:bg-gradient-stellar data-[state=active]:text-white"
+            >
+              <Scale className="h-4 w-4 mr-2" />
+              Weight Tracker
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="calories" className="space-y-6">
@@ -63,6 +71,10 @@ const Index = () => {
 
           <TabsContent value="exercise" className="space-y-6">
             <ExerciseTracker />
+          </TabsContent>
+
+          <TabsContent value="weight" className="space-y-6">
+            <WeightTracker />
           </TabsContent>
         </Tabs>
       </main>
