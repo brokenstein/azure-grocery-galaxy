@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calculator, ShoppingCart, Zap } from 'lucide-react';
+import { Calculator, ShoppingCart, Zap, Dumbbell } from 'lucide-react';
 import CalorieCalculator from '@/components/CalorieCalculator';
 import FoodListBuilder from '@/components/FoodListBuilder';
+import ExerciseTracker from '@/components/ExerciseTracker';
 import hypersonicLogo from '@/assets/hypersonic-logo.png';
 
 const Index = () => {
@@ -28,7 +29,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="calories" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 bg-card/50 backdrop-blur-md border border-border/50">
+          <TabsList className="grid w-full grid-cols-3 bg-card/50 backdrop-blur-md border border-border/50">
             <TabsTrigger 
               value="calories" 
               className="data-[state=active]:bg-gradient-stellar data-[state=active]:text-white"
@@ -43,6 +44,13 @@ const Index = () => {
               <ShoppingCart className="h-4 w-4 mr-2" />
               Shopping List
             </TabsTrigger>
+            <TabsTrigger 
+              value="exercise" 
+              className="data-[state=active]:bg-gradient-stellar data-[state=active]:text-white"
+            >
+              <Dumbbell className="h-4 w-4 mr-2" />
+              Exercise Tracker
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="calories" className="space-y-6">
@@ -51,6 +59,10 @@ const Index = () => {
 
           <TabsContent value="shopping" className="space-y-6">
             <FoodListBuilder />
+          </TabsContent>
+
+          <TabsContent value="exercise" className="space-y-6">
+            <ExerciseTracker />
           </TabsContent>
         </Tabs>
       </main>
