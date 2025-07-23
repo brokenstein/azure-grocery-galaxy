@@ -43,11 +43,16 @@ All colors MUST be HSL.
     --deep-space: 231 15% 8%;
     --nebula: 280 60% 45%;
     --star-silver: 210 15% 85%;
+    --cosmic-white: 0 0% 98%;
+    --space-grey: 220 15% 45%;
+    --moon-grey: 210 10% 88%;
 
     /* Gradients */
     --gradient-cosmic: linear-gradient(135deg, hsl(231 15% 8%), hsl(258 60% 20%));
     --gradient-stellar: linear-gradient(45deg, hsl(258 90% 66%), hsl(280 60% 45%));
     --gradient-nebula: linear-gradient(180deg, hsl(220 100% 55%), hsl(258 90% 66%));
+    --gradient-silver: linear-gradient(135deg, hsl(210 15% 85%), hsl(0 0% 98%));
+    --gradient-grey: linear-gradient(45deg, hsl(220 15% 45%), hsl(210 10% 88%));
 
     --radius: 0.75rem;
 

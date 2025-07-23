@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-cosmic">
       {/* Header */}
-      <header className="bg-card/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
+      <header className="bg-cosmic-white/10 backdrop-blur-md border-b border-moon-grey/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center space-x-4">
             <img 
@@ -29,7 +29,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="calories" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-card/50 backdrop-blur-md border border-border/50">
+          <TabsList className="grid w-full grid-cols-3 bg-cosmic-white/10 backdrop-blur-md border border-moon-grey/30">
             <TabsTrigger 
               value="calories" 
               className="data-[state=active]:bg-gradient-stellar data-[state=active]:text-white"
@@ -68,7 +68,7 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-border/50">
+      <footer className="mt-16 py-8 border-t border-space-grey/30 bg-cosmic-white/5">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
             Powered by Hypersonic ⚡ Lightning-fast health tracking across the cosmos

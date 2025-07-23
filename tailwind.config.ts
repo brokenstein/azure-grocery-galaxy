@@ -58,6 +58,9 @@ export default {
 				'deep-space': 'hsl(var(--deep-space))',
 				'nebula': 'hsl(var(--nebula))',
 				'star-silver': 'hsl(var(--star-silver))',
+				'cosmic-white': 'hsl(var(--cosmic-white))',
+				'space-grey': 'hsl(var(--space-grey))',
+				'moon-grey': 'hsl(var(--moon-grey))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -73,6 +76,8 @@ export default {
 				'gradient-cosmic': 'var(--gradient-cosmic)',
 				'gradient-stellar': 'var(--gradient-stellar)',
 				'gradient-nebula': 'var(--gradient-nebula)',
+				'gradient-silver': 'var(--gradient-silver)',
+				'gradient-grey': 'var(--gradient-grey)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
