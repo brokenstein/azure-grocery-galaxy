@@ -1,38 +1,108 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Target } from 'lucide-react';
+import { Plus, Trash2, Target, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface FoodEntry {
   id: string;
   name: string;
   calories: number;
+  created_at?: string;
 }
 
 const CalorieCalculator = () => {
   const [entries, setEntries] = useState<FoodEntry[]>([]);
   const [foodName, setFoodName] = useState('');
   const [calories, setCalories] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const totalCalories = entries.reduce((sum, entry) => sum + entry.calories, 0);
 
-  const addEntry = () => {
-    if (foodName.trim() && calories.trim() && !isNaN(Number(calories))) {
-      const newEntry: FoodEntry = {
-        id: Date.now().toString(),
-        name: foodName.trim(),
-        calories: Number(calories),
-      };
-      setEntries([...entries, newEntry]);
-      setFoodName('');
-      setCalories('');
+  useEffect(() => {
+    fetchEntries();
+  }, []);
+
+  const fetchEntries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('food_entries')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setEntries(data || []);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load food entries",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const removeEntry = (id: string) => {
-    setEntries(entries.filter(entry => entry.id !== id));
+  const addEntry = async () => {
+    if (!foodName.trim() || !calories.trim() || isNaN(Number(calories))) return;
+    
+    setSubmitting(true);
+    try {
+      const { data, error } = await supabase
+        .from('food_entries')
+        .insert([{
+          name: foodName.trim(),
+          calories: Number(calories),
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      setEntries([data, ...entries]);
+      setFoodName('');
+      setCalories('');
+      toast({
+        title: "Success",
+        description: "Food entry added successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add food entry",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const removeEntry = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('food_entries')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setEntries(entries.filter(entry => entry.id !== id));
+      toast({
+        title: "Success",
+        description: "Food entry removed",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to remove food entry",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -84,10 +154,14 @@ const CalorieCalculator = () => {
           <Button 
             onClick={addEntry}
             className="w-full bg-gradient-nebula hover:opacity-90 transition-opacity"
-            disabled={!foodName.trim() || !calories.trim()}
+            disabled={!foodName.trim() || !calories.trim() || submitting}
           >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Entry
+            {submitting ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Plus className="h-4 w-4 mr-2" />
+            )}
+            {submitting ? 'Adding...' : 'Add Entry'}
           </Button>
         </CardContent>
       </Card>
@@ -98,7 +172,11 @@ const CalorieCalculator = () => {
           <CardTitle>Today's Entries ({entries.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          {entries.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+          ) : entries.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>No entries yet. Add your first food item above!</p>
