@@ -36,7 +36,10 @@ const WeightTracker = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setEntries(data || []);
+      setEntries((data || []).map(entry => ({
+        ...entry,
+        unit: entry.unit as 'kg' | 'lbs'
+      })));
     } catch (error) {
       toast({
         title: "Error",
@@ -65,7 +68,7 @@ const WeightTracker = () => {
 
       if (error) throw error;
       
-      setEntries([data, ...entries]);
+      setEntries([{...data, unit: data.unit as 'kg' | 'lbs'}, ...entries]);
       setWeight('');
       toast({
         title: "Success",
