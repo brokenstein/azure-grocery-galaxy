@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      exercise_entries: {
+        Row: {
+          created_at: string
+          exercise: string
+          id: string
+          reps: number
+          sets: number
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          exercise: string
+          id?: string
+          reps: number
+          sets: number
+          weight: number
+        }
+        Update: {
+          created_at?: string
+          exercise?: string
+          id?: string
+          reps?: number
+          sets?: number
+          weight?: number
+        }
+        Relationships: []
+      }
+      food_entries: {
+        Row: {
+          calories: number
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          calories: number
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          calories?: number
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      shopping_list_items: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      weight_entries: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          unit: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          unit: string
+          weight: number
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          unit?: string
+          weight?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
