@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Target, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import CalorieChart from './CalorieChart';
 
 interface FoodEntry {
   id: string;
@@ -215,6 +216,9 @@ const CalorieCalculator = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Calorie History Chart */}
+      <CalorieChart />
     </div>
   );
 };

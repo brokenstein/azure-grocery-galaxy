@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Dumbbell, Target, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import ExerciseChart from './ExerciseChart';
 
 interface ExerciseSet {
   id: string;
@@ -253,6 +254,9 @@ const ExerciseTracker = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Exercise History Chart */}
+      <ExerciseChart />
     </div>
   );
 };
