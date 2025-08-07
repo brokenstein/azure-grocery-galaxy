@@ -141,7 +141,7 @@ const ExerciseTracker = () => {
             <div className="h-8 w-px bg-border"></div>
             <div className="text-center">
               <p className="text-2xl font-bold text-foreground">{totalVolume.toFixed(0)}</p>
-              <p className="text-sm text-muted-foreground">Total Volume (kg)</p>
+              <p className="text-sm text-muted-foreground">Total Volume (lbs)</p>
             </div>
           </div>
         </CardContent>
@@ -179,7 +179,7 @@ const ExerciseTracker = () => {
             />
             <Input
               type="number"
-              placeholder="Weight (kg)"
+              placeholder="Weight (lbs)"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -234,7 +234,7 @@ const ExerciseTracker = () => {
                           {exercise.reps} reps
                         </Badge>
                         <Badge variant="outline" className="text-xs">
-                          {exercise.weight} kg
+                          {exercise.weight} lbs
                         </Badge>
                       </div>
                     </div>
