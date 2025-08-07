@@ -130,10 +130,10 @@ const ExerciseTracker = () => {
 
   return (
     <div className="space-y-6">
-      {/* Workout Summary */}
+      {/* Workout Summary with Chart */}
       <Card className="bg-gradient-stellar border-stellar-purple/30">
         <CardContent className="pt-6">
-          <div className="flex items-center justify-center space-x-6">
+          <div className="flex items-center justify-center space-x-6 mb-6">
             <Target className="h-8 w-8 text-stellar-purple" />
             <div className="text-center">
               <p className="text-2xl font-bold text-foreground">{totalSets}</p>
@@ -145,6 +145,7 @@ const ExerciseTracker = () => {
               <p className="text-sm text-muted-foreground">Total Volume (lbs)</p>
             </div>
           </div>
+          <ExerciseChart />
         </CardContent>
       </Card>
 
@@ -255,8 +256,6 @@ const ExerciseTracker = () => {
         </CardContent>
       </Card>
 
-      {/* Exercise History Chart */}
-      <ExerciseChart />
     </div>
   );
 };

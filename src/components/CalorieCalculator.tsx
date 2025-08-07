@@ -119,16 +119,17 @@ const CalorieCalculator = () => {
 
   return (
     <div className="space-y-6">
-      {/* Daily Summary Card */}
+      {/* Daily Summary with Chart */}
       <Card className="bg-gradient-stellar border-stellar-purple/30">
         <CardContent className="pt-6">
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex items-center justify-center space-x-4 mb-6">
             <Target className="h-8 w-8 text-stellar-purple" />
             <div className="text-center">
               <p className="text-2xl font-bold text-foreground">{totalCalories}</p>
               <p className="text-sm text-muted-foreground">Total Calories Today</p>
             </div>
           </div>
+          <CalorieChart />
         </CardContent>
       </Card>
 
@@ -217,8 +218,6 @@ const CalorieCalculator = () => {
         </CardContent>
       </Card>
 
-      {/* Calorie History Chart */}
-      <CalorieChart />
     </div>
   );
 };
