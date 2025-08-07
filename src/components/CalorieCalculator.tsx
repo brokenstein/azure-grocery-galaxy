@@ -30,9 +30,14 @@ const CalorieCalculator = () => {
 
   const fetchEntries = async () => {
     try {
+      // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split('T')[0];
+      
       const { data, error } = await supabase
         .from('food_entries')
         .select('*')
+        .gte('created_at', `${today}T00:00:00.000Z`)
+        .lt('created_at', `${today}T23:59:59.999Z`)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
