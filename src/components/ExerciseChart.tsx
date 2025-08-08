@@ -92,7 +92,7 @@ const ExerciseChart = () => {
             <Loader2 className="h-8 w-8 animate-spin" />
           </div>
         ) : (
-          <ChartContainer config={chartConfig} className="h-[200px]">
+          <ChartContainer config={chartConfig} className="h-[150px] md:h-[200px]">
             <LineChart data={data}>
               <XAxis 
                 dataKey="date" 
