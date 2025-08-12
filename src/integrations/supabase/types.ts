@@ -21,6 +21,7 @@ export type Database = {
           id: string
           reps: number
           sets: number
+          user_id: string | null
           weight: number
         }
         Insert: {
@@ -29,6 +30,7 @@ export type Database = {
           id?: string
           reps: number
           sets: number
+          user_id?: string | null
           weight: number
         }
         Update: {
@@ -37,6 +39,7 @@ export type Database = {
           id?: string
           reps?: number
           sets?: number
+          user_id?: string | null
           weight?: number
         }
         Relationships: []
@@ -47,18 +50,21 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          user_id: string | null
         }
         Insert: {
           calories: number
           created_at?: string
           id?: string
           name: string
+          user_id?: string | null
         }
         Update: {
           calories?: number
           created_at?: string
           id?: string
           name?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -68,18 +74,21 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          user_id: string | null
         }
         Insert: {
           completed?: boolean
           created_at?: string
           id?: string
           name: string
+          user_id?: string | null
         }
         Update: {
           completed?: boolean
           created_at?: string
           id?: string
           name?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -89,6 +98,7 @@ export type Database = {
           date: string
           id: string
           unit: string
+          user_id: string | null
           weight: number
         }
         Insert: {
@@ -96,6 +106,7 @@ export type Database = {
           date: string
           id?: string
           unit: string
+          user_id?: string | null
           weight: number
         }
         Update: {
@@ -103,6 +114,7 @@ export type Database = {
           date?: string
           id?: string
           unit?: string
+          user_id?: string | null
           weight?: number
         }
         Relationships: []
