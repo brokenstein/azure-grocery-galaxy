@@ -56,12 +56,16 @@ const WeightTracker = () => {
     
     setSubmitting(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('weight_entries')
         .insert([{
           weight: Number(weight),
           date: new Date().toLocaleDateString(),
           unit: unit,
+          user_id: user.id
         }])
         .select()
         .single();

@@ -59,11 +59,15 @@ const CalorieCalculator = () => {
     
     setSubmitting(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('food_entries')
         .insert([{
           name: foodName.trim(),
           calories: Number(calories),
+          user_id: user.id
         }])
         .select()
         .single();

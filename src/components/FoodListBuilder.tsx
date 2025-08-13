@@ -54,11 +54,15 @@ const FoodListBuilder = () => {
     
     setSubmitting(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('shopping_list_items')
         .insert([{
           name: newItem.trim(),
           completed: false,
+          user_id: user.id
         }])
         .select()
         .single();

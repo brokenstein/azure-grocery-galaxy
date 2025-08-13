@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Calculator, ShoppingCart, Zap, Dumbbell, Scale, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calculator, ShoppingCart, Zap, Dumbbell, Scale, ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import CalorieCalculator from '@/components/CalorieCalculator';
 import FoodListBuilder from '@/components/FoodListBuilder';
 import ExerciseTracker from '@/components/ExerciseTracker';
@@ -10,6 +12,7 @@ import hypersonicLogo from '@/assets/hypersonic-logo.png';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("calories");
+  const { toast } = useToast();
   
   const tabs = [
     { value: "calories", label: "Calorie Calculator", icon: Calculator },
@@ -30,21 +33,47 @@ const Index = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      window.location.href = '/';
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-cosmic">
       {/* Header */}
       <header className="bg-cosmic-white/10 backdrop-blur-md border-b border-moon-grey/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center space-x-4">
-            <img 
-              src={hypersonicLogo} 
-              alt="Hypersonic Logo" 
-              className="h-12 w-12 rounded-lg shadow-lg"
-            />
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Hypersonic</h1>
-              <p className="text-sm text-muted-foreground">Lightning-fast health tracking</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img 
+                src={hypersonicLogo} 
+                alt="Hypersonic Logo" 
+                className="h-12 w-12 rounded-lg shadow-lg"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Hypersonic</h1>
+                <p className="text-sm text-muted-foreground">Lightning-fast health tracking</p>
+              </div>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSignOut}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
           </div>
         </div>
       </header>

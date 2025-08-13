@@ -62,6 +62,9 @@ const ExerciseTracker = () => {
     
     setSubmitting(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('exercise_entries')
         .insert([{
@@ -69,6 +72,7 @@ const ExerciseTracker = () => {
           sets: Number(sets),
           reps: Number(reps),
           weight: Number(weight),
+          user_id: user.id
         }])
         .select()
         .single();
