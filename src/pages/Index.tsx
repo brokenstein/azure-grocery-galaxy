@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Calculator, ShoppingCart, Zap, Dumbbell, Scale, ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
+import { Calculator, ShoppingCart, Zap, Dumbbell, Scale, ChevronLeft, ChevronRight, LogOut, Receipt, CreditCard } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import CalorieCalculator from '@/components/CalorieCalculator';
 import FoodListBuilder from '@/components/FoodListBuilder';
 import ExerciseTracker from '@/components/ExerciseTracker';
 import WeightTracker from '@/components/WeightTracker';
+import BillsTracker from '@/components/BillsTracker';
+import BankAccountTracker from '@/components/BankAccountTracker';
 import hypersonicLogo from '@/assets/hypersonic-logo.png';
 
 const Index = () => {
@@ -18,7 +20,9 @@ const Index = () => {
     { value: "calories", label: "Calorie Calculator", icon: Calculator },
     { value: "shopping", label: "Shopping List", icon: ShoppingCart },
     { value: "exercise", label: "Exercise Tracker", icon: Dumbbell },
-    { value: "weight", label: "Weight Tracker", icon: Scale }
+    { value: "weight", label: "Weight Tracker", icon: Scale },
+    { value: "bills", label: "Bills & Subscriptions", icon: Receipt },
+    { value: "accounts", label: "Bank Accounts", icon: CreditCard }
   ];
 
   const currentTabIndex = tabs.findIndex(tab => tab.value === activeTab);
@@ -82,7 +86,7 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* Desktop tabs - hidden on mobile */}
-          <TabsList className="hidden md:grid w-full grid-cols-4 bg-cosmic-white/10 backdrop-blur-md border border-moon-grey/30">
+          <TabsList className="hidden md:grid w-full grid-cols-6 bg-cosmic-white/10 backdrop-blur-md border border-moon-grey/30">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -146,6 +150,14 @@ const Index = () => {
 
           <TabsContent value="weight" className="space-y-6">
             <WeightTracker />
+          </TabsContent>
+
+          <TabsContent value="bills" className="space-y-6">
+            <BillsTracker />
+          </TabsContent>
+
+          <TabsContent value="accounts" className="space-y-6">
+            <BankAccountTracker />
           </TabsContent>
         </Tabs>
       </main>

@@ -7,13 +7,97 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.12 (cd3cf9e)"
   }
   public: {
     Tables: {
+      bank_accounts: {
+        Row: {
+          account_name: string
+          account_number_last_four: string | null
+          account_type: string
+          balance: number
+          bank_name: string
+          created_at: string
+          currency: string
+          id: string
+          is_active: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_name: string
+          account_number_last_four?: string | null
+          account_type: string
+          balance?: number
+          bank_name: string
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_name?: string
+          account_number_last_four?: string | null
+          account_type?: string
+          balance?: number
+          bank_name?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bills_subscriptions: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          due_date: string
+          frequency: string
+          id: string
+          name: string
+          notes: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          due_date: string
+          frequency?: string
+          id?: string
+          name: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          due_date?: string
+          frequency?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       exercise_entries: {
         Row: {
           created_at: string
