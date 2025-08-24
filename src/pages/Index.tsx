@@ -56,17 +56,17 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-cosmic">
       {/* Header */}
       <header className="bg-cosmic-white/10 backdrop-blur-md border-b border-moon-grey/30 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <img 
                 src={hypersonicLogo} 
                 alt="Hypersonic Logo" 
-                className="h-12 w-12 rounded-lg shadow-lg"
+                className="h-8 w-8 rounded-lg shadow-lg"
               />
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Hypersonic</h1>
-                <p className="text-sm text-muted-foreground">Lightning-fast health tracking</p>
+                <h1 className="text-xl font-bold text-foreground">Hypersonic</h1>
+                <p className="text-xs text-muted-foreground">Lightning-fast health tracking</p>
               </div>
             </div>
             <Button
@@ -163,9 +163,9 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-space-grey/30 bg-cosmic-white/5">
+      <footer className="mt-8 py-4 border-t border-space-grey/30 bg-cosmic-white/5">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Powered by Hypersonic ⚡ Lightning-fast health tracking across the cosmos
           </p>
         </div>
