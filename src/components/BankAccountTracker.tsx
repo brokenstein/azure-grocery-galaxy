@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, DollarSign, CreditCard, Building2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Trash2, DollarSign, CreditCard, Building2, Eye, EyeOff, Pencil } from 'lucide-react';
+import EditEntryDialog from './EditEntryDialog';
 
 interface BankAccount {
   id: string;
@@ -27,6 +28,7 @@ const BankAccountTracker = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [showBalances, setShowBalances] = useState(true);
+  const [editingAccount, setEditingAccount] = useState<BankAccount | null>(null);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -196,6 +198,38 @@ const BankAccountTracker = () => {
       case 'credit card': return 'bg-destructive';
       case 'investment': return 'bg-cosmic-blue';
       default: return 'bg-secondary';
+    }
+  };
+
+  const updateAccount = async (values: Record<string, string | number>) => {
+    if (!editingAccount) return;
+
+    try {
+      const { error } = await supabase
+        .from('bank_accounts')
+        .update({
+          account_name: String(values.account_name),
+          bank_name: String(values.bank_name),
+          account_type: String(values.account_type),
+          balance: Number(values.balance),
+          currency: String(values.currency),
+        })
+        .eq('id', editingAccount.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Account updated successfully!",
+      });
+      fetchAccounts();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+      throw error;
     }
   };
 
@@ -445,6 +479,13 @@ const BankAccountTracker = () => {
                         <Button
                           variant="outline"
                           size="sm"
+                          onClick={() => setEditingAccount(account)}
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
                           onClick={() => deleteAccount(account.id)}
                         >
                           <Trash2 className="h-3 w-3" />
@@ -458,6 +499,29 @@ const BankAccountTracker = () => {
           )}
         </CardContent>
       </Card>
+
+      {editingAccount && (
+        <EditEntryDialog
+          open={!!editingAccount}
+          onOpenChange={(open) => !open && setEditingAccount(null)}
+          title="Bank Account"
+          fields={[
+            { name: 'account_name', label: 'Account Name', type: 'text' },
+            { name: 'bank_name', label: 'Bank Name', type: 'text' },
+            { name: 'account_type', label: 'Account Type', type: 'select', options: accountTypes.map(t => ({ value: t, label: t })) },
+            { name: 'balance', label: 'Balance', type: 'number' },
+            { name: 'currency', label: 'Currency', type: 'select', options: currencies.map(c => ({ value: c, label: c })) },
+          ]}
+          initialValues={{
+            account_name: editingAccount.account_name,
+            bank_name: editingAccount.bank_name,
+            account_type: editingAccount.account_type,
+            balance: editingAccount.balance,
+            currency: editingAccount.currency,
+          }}
+          onSave={updateAccount}
+        />
+      )}
     </div>
   );
 };
