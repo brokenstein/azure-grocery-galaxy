@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Target, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Target, Loader2, Pencil } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import CalorieChart from './CalorieChart';
+import EditEntryDialog from './EditEntryDialog';
 
 interface FoodEntry {
   id: string;
@@ -21,6 +22,7 @@ const CalorieCalculator = () => {
   const [calories, setCalories] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<FoodEntry | null>(null);
   const { toast } = useToast();
 
   const totalCalories = entries.reduce((sum, entry) => sum + entry.calories, 0);
@@ -121,6 +123,39 @@ const CalorieCalculator = () => {
     }
   };
 
+  const updateEntry = async (values: Record<string, string | number>) => {
+    if (!editingEntry) return;
+
+    try {
+      const { error } = await supabase
+        .from('food_entries')
+        .update({
+          name: String(values.name),
+          calories: Number(values.calories),
+        })
+        .eq('id', editingEntry.id);
+
+      if (error) throw error;
+
+      setEntries(entries.map(entry =>
+        entry.id === editingEntry.id
+          ? { ...entry, name: String(values.name), calories: Number(values.calories) }
+          : entry
+      ));
+      toast({
+        title: "Success",
+        description: "Food entry updated successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update food entry",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Daily Summary with Chart */}
@@ -207,14 +242,24 @@ const CalorieCalculator = () => {
                       </Badge>
                     </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeEntry(entry.id)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setEditingEntry(entry)}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeEntry(entry.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -222,6 +267,22 @@ const CalorieCalculator = () => {
         </CardContent>
       </Card>
 
+      {editingEntry && (
+        <EditEntryDialog
+          open={!!editingEntry}
+          onOpenChange={(open) => !open && setEditingEntry(null)}
+          title="Food Entry"
+          fields={[
+            { name: 'name', label: 'Food Name', type: 'text' },
+            { name: 'calories', label: 'Calories', type: 'number' },
+          ]}
+          initialValues={{
+            name: editingEntry.name,
+            calories: editingEntry.calories,
+          }}
+          onSave={updateEntry}
+        />
+      )}
     </div>
   );
 };
