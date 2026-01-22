@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Dumbbell, Target, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Dumbbell, Target, Loader2, Pencil } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import ExerciseChart from './ExerciseChart';
+import EditEntryDialog from './EditEntryDialog';
 
 interface ExerciseSet {
   id: string;
@@ -25,6 +26,7 @@ const ExerciseTracker = () => {
   const [weight, setWeight] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [editingExercise, setEditingExercise] = useState<ExerciseSet | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -125,6 +127,41 @@ const ExerciseTracker = () => {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       addExercise();
+    }
+  };
+
+  const updateExercise = async (values: Record<string, string | number>) => {
+    if (!editingExercise) return;
+
+    try {
+      const { error } = await supabase
+        .from('exercise_entries')
+        .update({
+          exercise: String(values.exercise),
+          sets: Number(values.sets),
+          reps: Number(values.reps),
+          weight: Number(values.weight),
+        })
+        .eq('id', editingExercise.id);
+
+      if (error) throw error;
+
+      setExercises(exercises.map(ex =>
+        ex.id === editingExercise.id
+          ? { ...ex, exercise: String(values.exercise), sets: Number(values.sets), reps: Number(values.reps), weight: Number(values.weight) }
+          : ex
+      ));
+      toast({
+        title: "Success",
+        description: "Exercise updated successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update exercise",
+        variant: "destructive",
+      });
+      throw error;
     }
   };
 
@@ -245,14 +282,24 @@ const ExerciseTracker = () => {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeExercise(exercise.id)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setEditingExercise(exercise)}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeExercise(exercise.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -260,6 +307,26 @@ const ExerciseTracker = () => {
         </CardContent>
       </Card>
 
+      {editingExercise && (
+        <EditEntryDialog
+          open={!!editingExercise}
+          onOpenChange={(open) => !open && setEditingExercise(null)}
+          title="Exercise"
+          fields={[
+            { name: 'exercise', label: 'Exercise', type: 'text' },
+            { name: 'sets', label: 'Sets', type: 'number' },
+            { name: 'reps', label: 'Reps', type: 'number' },
+            { name: 'weight', label: 'Weight (lbs)', type: 'number' },
+          ]}
+          initialValues={{
+            exercise: editingExercise.exercise,
+            sets: editingExercise.sets,
+            reps: editingExercise.reps,
+            weight: editingExercise.weight,
+          }}
+          onSave={updateExercise}
+        />
+      )}
     </div>
   );
 };

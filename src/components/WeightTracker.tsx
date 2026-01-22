@@ -4,9 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, Scale, TrendingUp, TrendingDown, Minus, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Scale, TrendingUp, TrendingDown, Minus, Loader2, Pencil } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import EditEntryDialog from './EditEntryDialog';
 
 interface WeightEntry {
   id: string;
@@ -22,6 +23,7 @@ const WeightTracker = () => {
   const [unit, setUnit] = useState<'kg' | 'lbs'>('kg');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<WeightEntry | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -115,6 +117,39 @@ const WeightTracker = () => {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       addEntry();
+    }
+  };
+
+  const updateEntry = async (values: Record<string, string | number>) => {
+    if (!editingEntry) return;
+
+    try {
+      const { error } = await supabase
+        .from('weight_entries')
+        .update({
+          weight: Number(values.weight),
+          unit: String(values.unit),
+        })
+        .eq('id', editingEntry.id);
+
+      if (error) throw error;
+
+      setEntries(entries.map(entry =>
+        entry.id === editingEntry.id
+          ? { ...entry, weight: Number(values.weight), unit: String(values.unit) as 'kg' | 'lbs' }
+          : entry
+      ));
+      toast({
+        title: "Success",
+        description: "Weight entry updated successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update weight entry",
+        variant: "destructive",
+      });
+      throw error;
     }
   };
 
@@ -241,20 +276,50 @@ const WeightTracker = () => {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeEntry(entry.id)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setEditingEntry(entry)}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeEntry(entry.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </CardContent>
       </Card>
+
+      {editingEntry && (
+        <EditEntryDialog
+          open={!!editingEntry}
+          onOpenChange={(open) => !open && setEditingEntry(null)}
+          title="Weight Entry"
+          fields={[
+            { name: 'weight', label: 'Weight', type: 'number' },
+            { name: 'unit', label: 'Unit', type: 'select', options: [
+              { value: 'kg', label: 'kg' },
+              { value: 'lbs', label: 'lbs' },
+            ]},
+          ]}
+          initialValues={{
+            weight: editingEntry.weight,
+            unit: editingEntry.unit,
+          }}
+          onSave={updateEntry}
+        />
+      )}
     </div>
   );
 };
