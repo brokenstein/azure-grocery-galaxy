@@ -9,8 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit2, Trash2, DollarSign, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, DollarSign, Calendar, Pencil } from 'lucide-react';
 import { format } from 'date-fns';
+import EditEntryDialog from './EditEntryDialog';
 
 interface BillSubscription {
   id: string;
@@ -28,6 +29,7 @@ const BillsTracker = () => {
   const [bills, setBills] = useState<BillSubscription[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [editingBill, setEditingBill] = useState<BillSubscription | null>(null);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -175,6 +177,37 @@ const BillsTracker = () => {
       case 'paid': return 'bg-gradient-stellar';
       case 'overdue': return 'bg-destructive';
       default: return 'bg-secondary';
+    }
+  };
+
+  const updateBill = async (values: Record<string, string | number>) => {
+    if (!editingBill) return;
+
+    try {
+      const { error } = await supabase
+        .from('bills_subscriptions')
+        .update({
+          name: String(values.name),
+          amount: Number(values.amount),
+          category: String(values.category),
+          frequency: String(values.frequency),
+        })
+        .eq('id', editingBill.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Bill updated successfully!",
+      });
+      fetchBills();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+      throw error;
     }
   };
 
@@ -389,6 +422,13 @@ const BillsTracker = () => {
                         <Button
                           variant="outline"
                           size="sm"
+                          onClick={() => setEditingBill(bill)}
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
                           onClick={() => deleteBill(bill.id)}
                         >
                           <Trash2 className="h-3 w-3" />
@@ -402,6 +442,27 @@ const BillsTracker = () => {
           )}
         </CardContent>
       </Card>
+
+      {editingBill && (
+        <EditEntryDialog
+          open={!!editingBill}
+          onOpenChange={(open) => !open && setEditingBill(null)}
+          title="Bill/Subscription"
+          fields={[
+            { name: 'name', label: 'Name', type: 'text' },
+            { name: 'amount', label: 'Amount', type: 'number' },
+            { name: 'category', label: 'Category', type: 'select', options: categories.map(c => ({ value: c, label: c })) },
+            { name: 'frequency', label: 'Frequency', type: 'select', options: frequencies.map(f => ({ value: f, label: f })) },
+          ]}
+          initialValues={{
+            name: editingBill.name,
+            amount: editingBill.amount,
+            category: editingBill.category,
+            frequency: editingBill.frequency,
+          }}
+          onSave={updateBill}
+        />
+      )}
     </div>
   );
 };
