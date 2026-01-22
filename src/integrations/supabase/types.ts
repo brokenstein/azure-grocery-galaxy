@@ -14,7 +14,195 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bank_accounts: {
+        Row: {
+          account_name: string
+          account_number_last_four: string | null
+          account_type: string
+          balance: number
+          bank_name: string
+          created_at: string
+          currency: string
+          id: string
+          is_active: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_name: string
+          account_number_last_four?: string | null
+          account_type: string
+          balance?: number
+          bank_name: string
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_name?: string
+          account_number_last_four?: string | null
+          account_type?: string
+          balance?: number
+          bank_name?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bills_subscriptions: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          due_date: string
+          frequency: string
+          id: string
+          name: string
+          notes: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          due_date: string
+          frequency?: string
+          id?: string
+          name: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          due_date?: string
+          frequency?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      exercise_entries: {
+        Row: {
+          created_at: string
+          exercise: string
+          id: string
+          reps: number
+          sets: number
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          exercise: string
+          id?: string
+          reps: number
+          sets: number
+          user_id: string
+          weight?: number
+        }
+        Update: {
+          created_at?: string
+          exercise?: string
+          id?: string
+          reps?: number
+          sets?: number
+          user_id?: string
+          weight?: number
+        }
+        Relationships: []
+      }
+      food_entries: {
+        Row: {
+          calories: number
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          calories: number
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          calories?: number
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      shopping_list_items: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      weight_entries: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          unit: string
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          id?: string
+          unit?: string
+          user_id: string
+          weight: number
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          unit?: string
+          user_id?: string
+          weight?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
