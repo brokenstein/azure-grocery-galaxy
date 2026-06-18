@@ -108,6 +108,7 @@ const Index = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigateTab('prev')}
+              aria-label="Previous tab"
               className="text-foreground hover:bg-cosmic-white/20"
             >
               <ChevronLeft className="h-4 w-4" />
