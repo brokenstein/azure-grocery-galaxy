@@ -53,7 +53,12 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <Auth />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="*" element={<Auth />} />
+            </Routes>
+          </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
     );
