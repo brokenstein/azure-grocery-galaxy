@@ -9,6 +9,8 @@ import { Session, User } from '@supabase/supabase-js';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
+
 
 const queryClient = new QueryClient();
 
@@ -51,7 +53,12 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <Auth />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="*" element={<Auth />} />
+            </Routes>
+          </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
     );
