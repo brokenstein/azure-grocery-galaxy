@@ -131,6 +131,7 @@ const Index = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigateTab('next')}
+              aria-label="Next tab"
               className="text-foreground hover:bg-cosmic-white/20"
             >
               <ChevronRight className="h-4 w-4" />
