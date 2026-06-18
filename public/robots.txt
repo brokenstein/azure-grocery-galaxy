@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://azure-grocery-galaxy.lovable.app/sitemap.xml

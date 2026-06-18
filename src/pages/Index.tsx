@@ -61,11 +61,11 @@ const Index = () => {
             <div className="flex items-center space-x-3">
               <img 
                 src={hypersonicLogo} 
-                alt="Hypersonic Logo" 
+                alt="Hypersonic health tracking logo" 
                 className="h-8 w-8 rounded-lg shadow-lg"
               />
               <div>
-                <h1 className="text-xl font-bold text-foreground">Hypersonic</h1>
+                <h1 className="text-xl font-bold text-foreground">Hypersonic — Lightning-fast health tracking</h1>
                 <p className="text-xs text-muted-foreground">Lightning-fast health tracking</p>
               </div>
             </div>
@@ -108,6 +108,7 @@ const Index = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigateTab('prev')}
+              aria-label="Previous tab"
               className="text-foreground hover:bg-cosmic-white/20"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -130,6 +131,7 @@ const Index = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigateTab('next')}
+              aria-label="Next tab"
               className="text-foreground hover:bg-cosmic-white/20"
             >
               <ChevronRight className="h-4 w-4" />
