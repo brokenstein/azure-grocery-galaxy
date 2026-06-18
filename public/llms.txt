@@ -1,0 +1,9 @@
+# Hypersonic
+
+> Lightning-fast tracker for calories, exercise, weight, bills, and bank accounts in one private dashboard.
+
+Hypersonic is a personal health and finance tracking app. After signing in, users can log food intake and calories, exercise sessions, weight measurements, recurring bills and subscriptions, and bank/credit-card balances. All data is private to the authenticated user.
+
+## Pages
+
+- [Home](/): Overview of the app and entry point to sign in.
