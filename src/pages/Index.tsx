@@ -61,11 +61,11 @@ const Index = () => {
             <div className="flex items-center space-x-3">
               <img 
                 src={hypersonicLogo} 
-                alt="Hypersonic Logo" 
+                alt="Hypersonic health tracking logo" 
                 className="h-8 w-8 rounded-lg shadow-lg"
               />
               <div>
-                <h1 className="text-xl font-bold text-foreground">Hypersonic</h1>
+                <h1 className="text-xl font-bold text-foreground">Hypersonic — Lightning-fast health tracking</h1>
                 <p className="text-xs text-muted-foreground">Lightning-fast health tracking</p>
               </div>
             </div>
